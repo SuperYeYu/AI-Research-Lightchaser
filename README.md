@@ -1,4 +1,4 @@
-# <img src="./image/追光者.png" height="40" style="vertical-align: middle;" /> AI Research Lightchaser
+# <img src="./image/追光者_compressed.png" height="40" style="vertical-align: middle;" /> AI Research Lightchaser
 
 > 自动抓取 `arXiv`、`GitHub Trending`、`Hugging Face Papers`，  
 > 对研究方向做相关性评估，生成中文摘要，并通过邮件发送日报 / 周报。
