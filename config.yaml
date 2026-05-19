@@ -1,0 +1,56 @@
+report:
+  timezone: Asia/Shanghai
+  lookback_hours: 24
+  max_arxiv_fetch_results_per_profile: 200
+  max_arxiv_candidates_per_profile: 100
+  max_arxiv_results_per_profile: 20
+  max_github_results: 15
+  max_hf_results: 15
+
+profiles:
+  - id: graph
+    name: Graph / GNN
+    description: 关注图神经网络、图表示学习、图预训练、图 Transformer、图结构推理与 graph foundation model，重点跟踪 GNN 及其扩展方向。
+    keywords:
+      - graph
+      - graph learning
+      - graph machine learning
+      - graph neural network
+      - GNN
+      - graph representation learning
+      - graph pretraining
+      - graph transformer
+      - graph foundation model
+      - graph contrastive learning
+      - graph reasoning
+      - node classification
+      - link prediction
+    queries:
+      - graph neural networks for node classification link prediction and graph representation learning
+      - graph pretraining graph transformers and foundation models for graph reasoning
+      - self supervised graph learning and scalable graph representation learning for graphs
+      - graph machine learning methods extending GNNs with pretraining reasoning or foundation model capabilities
+
+  - id: agent
+    name: Agent / Multi-Agent
+    description: 关注基于大语言模型或 foundation model 的多智能体系统，重点跟踪协作、通信、规划、任务分解、工具调用、工作流编排与 multi-agent evaluation。
+    keywords:
+      - large language model
+      - foundation model
+      - llm based multi-agent
+      - multi-agent
+      - multi agent system
+      - multi-agent collaboration
+      - agent communication
+      - agent coordination
+      - agent planning
+      - task decomposition
+      - tool use
+      - workflow orchestration
+      - llm agent
+      - agent evaluation
+    queries:
+      - large language model based multi agent systems for collaboration communication coordination and task decomposition
+      - foundation model or large language model agents with planning tool use and workflow orchestration
+      - evaluation and benchmarking of llm based multi agent systems
+      - multi agent collaboration with communication protocols planning or coordination mechanisms built on large language models
