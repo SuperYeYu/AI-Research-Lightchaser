@@ -1,0 +1,75 @@
+name: AI Research Daily Digest
+
+on:
+  workflow_dispatch:
+    inputs:
+      period:
+        description: Report period
+        required: true
+        default: daily
+        type: choice
+        options:
+          - daily
+          - weekly
+      dry_run:
+        description: Generate HTML only and skip email sending
+        required: true
+        default: true
+        type: boolean
+  schedule:
+    - cron: "0 12 * * *"
+    - cron: "30 12 * * 0"
+
+permissions:
+  contents: read
+
+jobs:
+  run-digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      DEEPSEEK_BASE_URL: ${{ secrets.DEEPSEEK_BASE_URL }}
+      DEEPSEEK_MODEL: ${{ secrets.DEEPSEEK_MODEL }}
+      SMTP_HOST: ${{ secrets.SMTP_HOST }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SMTP_USER: ${{ secrets.SMTP_USER }}
+      SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+      MAIL_FROM: ${{ secrets.MAIL_FROM }}
+      MAIL_TO: ${{ secrets.MAIL_TO }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run scheduled daily digest
+        if: github.event_name == 'schedule' && github.event.schedule == '0 12 * * *'
+        run: python scripts/run_daily_digest.py --period daily
+
+      - name: Run scheduled weekly digest
+        if: github.event_name == 'schedule' && github.event.schedule == '30 12 * * 0'
+        run: python scripts/run_daily_digest.py --period weekly
+
+      - name: Run manual digest
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == false
+        run: python scripts/run_daily_digest.py --period "${{ inputs.period }}"
+
+      - name: Run manual dry-run digest
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run == true
+        run: python scripts/run_daily_digest.py --dry-run --period "${{ inputs.period }}"
+
+      - name: Upload generated HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: digest-output-${{ github.run_number }}
+          path: output/*.html
+          if-no-files-found: warn
